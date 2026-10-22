@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VitNota: sistema de gestión académica para estudiantes, docentes y calificaciones.">
+    <title>VitNota | Sistema de Gestión Académica</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/extras.css">
+</head>
+<body>
+    <noscript><p style="padding:24px">VitNota necesita JavaScript habilitado para funcionar.</p></noscript>
+
+    <div class="auth" id="auth">
+        <div class="hero">
+            <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+            <div class="logo">Vit<b>Nota</b></div>
+            <div class="t">
+                <h2 id="rot"></h2>
+                <p>Un solo lugar para estudiantes, docentes y calificaciones, con acceso seguro para cada persona.</p>
+                <div class="dots" id="dots"><i></i><i></i><i></i></div>
+            </div>
+            <span></span>
+        </div>
+        <div class="pane">
+            <form class="card view" id="vLogin">
+                <h1>Bienvenido</h1><p class="sub">Ingresa con tu correo institucional para continuar.</p>
+                <div class="fl"><input id="lEmail" name="correo" type="email" placeholder=" " autocomplete="username" maxlength="100"><label for="lEmail">Correo</label></div>
+                <div class="fl"><input id="lPass" name="contrasena" type="password" placeholder=" " autocomplete="current-password" maxlength="64"><label for="lPass">Contraseña</label><button type="button" class="eye" data-eye="lPass"></button></div>
+                <button class="btn">Iniciar sesión</button><div class="msg" id="lMsg" role="alert"></div>
+                <button type="button" class="link" data-go="vRec1">¿Olvidaste tu contraseña?</button>
+            </form>
+            <form class="card view" id="vRec1" hidden>
+                <h1>Recuperar acceso</h1><p class="sub">Escribe tu correo institucional o personal. Te enviaremos un código de 6 dígitos.</p>
+                <div class="fl"><input id="r1Email" name="correo" type="email" placeholder=" " maxlength="100"><label for="r1Email">Correo</label></div>
+                <button class="btn">Enviar código</button><div class="msg" id="r1Msg" role="alert"></div>
+                <button type="button" class="link" data-go="vLogin">Volver al inicio de sesión</button>
+            </form>
+            <form class="card view" id="vRec2" hidden>
+                <h1>Nueva contraseña</h1><p class="sub">Escribe el código recibido y elige una contraseña segura.</p>
+                <div class="demo-note" id="demoCodigo" hidden></div>
+                <div class="fl"><input id="r2Code" name="codigo" inputmode="numeric" maxlength="6" placeholder=" " autocomplete="one-time-code"><label for="r2Code">Código de 6 dígitos</label></div>
+                <div class="fl"><input id="r2Pass" name="nuevaContrasena" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="r2Pass">Nueva contraseña</label><button type="button" class="eye" data-eye="r2Pass"></button></div>
+                <div class="str"><i id="sr2Pass"></i></div><ul class="pwr" id="rr2Pass"></ul>
+                <div class="fl"><input id="r2Pass2" name="confirmar" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="r2Pass2">Confirmar contraseña</label></div>
+                <button class="btn">Cambiar contraseña</button><div class="msg" id="r2Msg" role="alert"></div>
+                <button type="button" class="link" data-go="vLogin">Volver</button>
+            </form>
+            <form class="card view" id="vForce" hidden>
+                <h1>Crea tu contraseña</h1><p class="sub">Por seguridad, reemplaza la contraseña temporal antes de continuar.</p>
+                <div class="fl"><input id="fOld" name="actual" type="password" placeholder=" " autocomplete="off" maxlength="64"><label for="fOld">Contraseña actual</label></div>
+                <div class="fl"><input id="fNew" name="nueva" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="fNew">Nueva contraseña</label><button type="button" class="eye" data-eye="fNew"></button></div>
+                <div class="str"><i id="sfNew"></i></div><ul class="pwr" id="rfNew"></ul>
+                <div class="fl"><input id="fNew2" name="confirmar" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="fNew2">Confirmar contraseña</label></div>
+                <button class="btn">Guardar y entrar</button><div class="msg" id="fMsg" role="alert"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="shell" id="app" hidden>
+        <aside class="side" id="side"></aside>
+        <div class="veil" id="veil"></div>
+        <main class="main">
+            <header class="bar">
+                <button id="burger" aria-label="Abrir menú"></button>
+                <div class="srch" id="srch"><input id="q" placeholder="Buscar módulo   ( / )" autocomplete="off" aria-label="Buscar módulo"></div>
+            </header>
+            <div class="head"><h1 id="tTitle"></h1><p id="tSub"></p></div>
+            <div id="content"></div>
+        </main>
+    </div>
+    <div id="toast" aria-live="polite"></div>
+
+    <!-- Núcleo -->
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/utils.js"></script>
+    <script src="assets/js/core/seguridad.js"></script>
+    <script src="assets/js/core/validacion.js"></script>
+    <script src="assets/js/core/dominio.js"></script>
+    <script src="assets/js/core/db.js"></script>
+    <script src="assets/js/core/seed.js"></script>
+    <script src="assets/js/core/icons.js"></script>
+    <script src="assets/js/core/ui.js"></script>
+    <script src="assets/js/data/historias.js"></script>
+    <!-- Capa de datos (API local) -->
+    <script src="assets/js/api/router.js"></script>
+    <script src="assets/js/api/auth.js"></script>
+    <script src="assets/js/api/personas.js"></script>
+    <script src="assets/js/api/academico.js"></script>
+    <script src="assets/js/api/notas.js"></script>
+    <script src="assets/js/api/sistema.js"></script>
+    <!-- Aplicación y módulos -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/modules/inicio.js"></script>
+    <script src="assets/js/modules/personas.js"></script>
+    <script src="assets/js/modules/perfil.js"></script>
+    <script src="assets/js/modules/cursos.js"></script>
+    <script src="assets/js/modules/asistencia.js"></script>
+    <script src="assets/js/modules/calificaciones.js"></script>
+    <script src="assets/js/modules/reportes.js"></script>
+    <script src="assets/js/modules/historias.js"></script>
+    <script src="assets/js/modules/configuracion.js"></script>
+    <script>VN.app.iniciar();</script>
+</body>
+</html>
