@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VitNota: sistema de gestión académica para estudiantes, docentes y calificaciones.">
+    <title>VitNota | Sistema de Gestión Académica</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/extras.css">
+</head>
+<body>
+    <noscript><p style="padding:24px">VitNota necesita JavaScript habilitado para funcionar.</p></noscript>
+
+    <div class="auth" id="auth">
+        <div class="hero">
+            <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+            <div class="logo">Vit<b>Nota</b></div>
+            <div class="t">
+                <h2 id="rot"></h2>
+                <p>Un solo lugar para estudiantes, docentes y calificaciones, con acceso seguro para cada persona.</p>
+                <div class="dots" id="dots"><i></i><i></i><i></i></div>
+            </div>
+            <span></span>
+        </div>
+        <div class="pane">
+            <form class="card view" id="vLogin">
+                <h1>Bienvenido</h1><p class="sub">Ingresa con tu correo institucional para continuar.</p>
+                <div class="fl"><input id="lEmail" name="correo" type="email" placeholder=" " autocomplete="username" maxlength="100"><label for="lEmail">Correo</label></div>
+                <div class="fl"><input id="lPass" name="contrasena" type="password" placeholder=" " autocomplete="current-password" maxlength="64"><label for="lPass">Contraseña</label><button type="button" class="eye" data-eye="lPass"></button></div>
+                <button class="btn">Iniciar sesión</button><div class="msg" id="lMsg" role="alert"></div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;align-items:center">
+                    <button type="button" class="link" data-go="vRec1">¿Olvidaste tu contraseña?</button>
+                    <button type="button" class="link sm" data-go="vRegistro" style="color:var(--ac);font-weight:600">¿No tienes cuenta? Regístrate aquí</button>
+                </div>
+            </form>
+            <form class="card view" id="vRec1" hidden>
+                <h1>Recuperar acceso</h1><p class="sub">Escribe tu correo institucional (@vitnota.edu.ni) o tu correo personal registrado para verificar tu identidad mediante tus preguntas de seguridad.</p>
+                
+                <div id="recPaso1">
+                    <div class="fl"><input id="r1Email" name="correo" type="email" placeholder=" " maxlength="100"><label for="r1Email">Correo institucional o personal</label></div>
+                    <button type="button" class="btn" id="btnBuscarCuenta">Buscar cuenta</button>
+                    <div class="msg" id="r1Msg" role="alert"></div>
+                </div>
+
+                <div id="recPaso2" hidden>
+                    <div class="rec-user-badge" id="recBadge" style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px"></div>
+                    <div class="qbox" style="background:var(--bg);padding:14px;border-radius:12px;margin:12px 0;border:1px solid var(--line)">
+                        <small style="color:var(--mut);display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Tu pregunta de seguridad personal:</small>
+                        <b id="recPreguntaTexto" style="font-size:15px;color:var(--tx)"></b>
+                    </div>
+                    <div class="fl"><input id="recRespuesta" name="respuesta" type="text" placeholder=" " maxlength="80"><label for="recRespuesta">Tu respuesta personal</label></div>
+                    <button type="button" class="btn" id="btnVerificarPregunta">Verificar y continuar</button>
+                    <div class="msg" id="recMsgRespuesta" role="alert"></div>
+                    <div style="text-align:center;margin-top:8px">
+                        <button type="button" class="link sm" id="btnCambiarCorreoRec">Buscar con otro correo</button>
+                    </div>
+                </div>
+
+                <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--line);text-align:center">
+                    <button type="button" class="link sm" data-go="vRec2">¿Prefieres código de 6 dígitos?</button>
+                    <div style="margin-top:6px"><button type="button" class="link" data-go="vLogin">Volver al inicio de sesión</button></div>
+                </div>
+            </form>
+            <form class="card view" id="vRec2" hidden>
+                <h1>Recuperación por código</h1><p class="sub">Escribe el código recibido y elige una contraseña segura.</p>
+                <div class="demo-note" id="demoCodigo" hidden></div>
+                <div class="fl"><input id="r2Code" name="codigo" inputmode="numeric" maxlength="6" placeholder=" " autocomplete="one-time-code"><label for="r2Code">Código de 6 dígitos</label></div>
+                <div class="fl"><input id="r2Pass" name="nuevaContrasena" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="r2Pass">Nueva contraseña</label><button type="button" class="eye" data-eye="r2Pass"></button></div>
+                <div class="str"><i id="sr2Pass"></i></div><ul class="pwr" id="rr2Pass"></ul>
+                <div class="fl"><input id="r2Pass2" name="confirmar" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="r2Pass2">Confirmar contraseña</label></div>
+                <button class="btn">Cambiar contraseña</button><div class="msg" id="r2Msg" role="alert"></div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px">
+                    <button type="button" class="link sm" data-go="vRec1">Recuperar por preguntas</button>
+                    <button type="button" class="link" data-go="vLogin">Volver al inicio</button>
+                </div>
+            </form>
+            <form class="card card-registro view" id="vRegistro" hidden>
+                <h1>Crear cuenta</h1><p class="sub">Completa el formulario y define tu pregunta personal para poder recuperar tu contraseña si la olvidas.</p>
+                <div class="fl full">
+                    <select id="regRol" name="rol">
+                        <option value="Estudiante">Estudiante</option>
+                        <option value="Docente">Docente</option>
+                    </select>
+                    <label for="regRol">Rol en el sistema</label>
+                </div>
+                <div class="row-fields">
+                    <div class="fl"><input id="regNombres" name="nombres" type="text" placeholder=" " maxlength="50"><label for="regNombres">Nombres</label></div>
+                    <div class="fl"><input id="regApellidos" name="apellidos" type="text" placeholder=" " maxlength="50"><label for="regApellidos">Apellidos</label></div>
+                </div>
+                <div class="row-fields">
+                    <div class="fl"><input id="regEmail" name="correoPersonal" type="email" placeholder=" " maxlength="100"><label for="regEmail">Correo personal</label></div>
+                    <div class="fl"><input id="regTel" name="telefono" type="tel" placeholder=" " maxlength="16"><label for="regTel">Teléfono</label></div>
+                </div>
+                
+                <div id="regBloqueEstudiante" class="row-fields">
+                    <div class="fl"><select id="regGrado" name="idGrado"></select><label for="regGrado">Grado a cursar</label></div>
+                    <div class="fl"><select id="regSec" name="numeroSeccion"><option value="1">Sección 1</option><option value="2">Sección 2</option></select><label for="regSec">Sección</label></div>
+                </div>
+                <div id="regBloqueDocente" hidden>
+                    <div class="fl full"><input id="regEsp" name="especialidad" type="text" placeholder=" " maxlength="80"><label for="regEsp">Especialidad docente</label></div>
+                </div>
+
+                <div class="fl full">
+                    <select id="regPregunta" name="preguntaSeguridad"></select>
+                    <label for="regPregunta">Pregunta de seguridad personal</label>
+                </div>
+                <div class="fl full"><input id="regRespuesta" name="respuestaSeguridad" type="text" placeholder=" " maxlength="80"><label for="regRespuesta">Tu respuesta personal (ej. nombre de perro o color)</label></div>
+
+                <div class="row-fields">
+                    <div class="fl"><input id="regPass" name="contrasena" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="regPass">Contraseña</label><button type="button" class="eye" data-eye="regPass"></button></div>
+                    <div class="fl"><input id="regPass2" name="confirmar" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="regPass2">Confirmar contraseña</label></div>
+                </div>
+                <div class="str"><i id="sregPass"></i></div><ul class="pwr" id="rregPass"></ul>
+
+                <button class="btn" style="margin-top:16px">Registrarme y acceder</button>
+                <div class="msg" id="regMsg" role="alert"></div>
+                <button type="button" class="link" data-go="vLogin" style="margin-top:8px">¿Ya tienes cuenta? Iniciar sesión</button>
+            </form>
+            <form class="card view" id="vForce" hidden>
+                <h1>Crea tu contraseña</h1><p class="sub">Por seguridad, reemplaza la contraseña temporal antes de continuar.</p>
+                <div class="fl"><input id="fOld" name="actual" type="password" placeholder=" " autocomplete="off" maxlength="64"><label for="fOld">Contraseña actual</label></div>
+                <div class="fl"><input id="fNew" name="nueva" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="fNew">Nueva contraseña</label><button type="button" class="eye" data-eye="fNew"></button></div>
+                <div class="str"><i id="sfNew"></i></div><ul class="pwr" id="rfNew"></ul>
+                <div class="fl"><input id="fNew2" name="confirmar" type="password" placeholder=" " autocomplete="new-password" maxlength="64"><label for="fNew2">Confirmar contraseña</label></div>
+                <button class="btn">Guardar y entrar</button><div class="msg" id="fMsg" role="alert"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="shell" id="app" hidden>
+        <aside class="side" id="side"></aside>
+        <div class="veil" id="veil"></div>
+        <main class="main">
+            <header class="bar">
+                <button id="burger" aria-label="Abrir menú"></button>
+                <div class="srch" id="srch"><input id="q" placeholder="Buscar módulo   ( / )" autocomplete="off" aria-label="Buscar módulo"></div>
+            </header>
+            <div class="head"><h1 id="tTitle"></h1><p id="tSub"></p></div>
+            <div id="content"></div>
+        </main>
+    </div>
+    <div id="toast" aria-live="polite"></div>
+
+    <!-- Núcleo -->
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/utils.js"></script>
+    <script src="assets/js/core/seguridad.js"></script>
+    <script src="assets/js/core/validacion.js"></script>
+    <script src="assets/js/core/dominio.js"></script>
+    <script src="assets/js/core/db.js"></script>
+    <script src="assets/js/core/seed.js"></script>
+    <script src="assets/js/core/icons.js"></script>
+    <script src="assets/js/core/ui.js"></script>
+    <script src="assets/js/data/historias.js"></script>
+    <!-- Capa de datos (API local) -->
+    <script src="assets/js/api/router.js"></script>
+    <script src="assets/js/api/auth.js"></script>
+    <script src="assets/js/api/personas.js"></script>
+    <script src="assets/js/api/academico.js"></script>
+    <script src="assets/js/api/notas.js"></script>
+    <script src="assets/js/api/sistema.js"></script>
+    <!-- Aplicación y módulos -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/modules/inicio.js"></script>
+    <script src="assets/js/modules/personas.js"></script>
+    <script src="assets/js/modules/perfil.js"></script>
+    <script src="assets/js/modules/cursos.js"></script>
+    <script src="assets/js/modules/asistencia.js"></script>
+    <script src="assets/js/modules/calificaciones.js"></script>
+    <script src="assets/js/modules/reportes.js"></script>
+    <script src="assets/js/modules/historias.js"></script>
+    <script src="assets/js/modules/configuracion.js"></script>
+    <script>VN.app.iniciar();</script>
+</body>
+</html>
